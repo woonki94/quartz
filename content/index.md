@@ -1,17 +1,35 @@
 ---
-title: Welcome to Quartz
+title: My learning Garden
 ---
 
-This is a blank Quartz installation.
-See the [documentation](https://quartz.jzhao.xyz) for how to get started.
+Welcome to my personal knowledge base where I document my learning journey in:
+
+- 📚 Machine Learning / Deep Learning / NLP
+-  🧮 Mathematics foundations for AI
+- 🧩 LeetCode problem solving
 
 
-HI!
+Explore by topic:
+## 🔗 Topics
 
-bye
+- [[ML]] – Supervised & unsupervised learning, regression, classification
+- [[DL]] – Neural networks, CNNs, RNNs, transformers
+- [[NLP]] – Text processing, embeddings, attention, LLMs
+- [[Applied Matrix]] – Linear algebra, eigenvalues, SVD
+- [[Convex Optimization]] – Convex optimization, gradient methods
+- [[Non-linear]] – Non-linear systems, activation functions
+- [[LeetCode]] – My solutions, categorized by topic
 
+---
 
-nope.
+## 📝 Why I Built This
 
-[[DL]]
+This site helps me:
+- Record what I learn
+- Reflect on problem-solving patterns
+- Connect theory with practice
+- Create a searchable and linkable knowledge base
 
+---
+
+*Built with using Obsidian and Quartz 4.*
