@@ -14,11 +14,6 @@ Explore by topic:
 ## 🔗 Topics
 
 - [[ML]] – Supervised & unsupervised learning, regression, classification
-- [[DL]] – Neural networks, CNNs, RNNs, transformers
-- [[NLP]] – Text processing, embeddings, attention, LLMs
-- [[Applied Matrix]] – Linear algebra, eigenvalues, SVD
-- [[Convex Optimization]] – Convex optimization, gradient methods
-- [[Non-linear]] – Non-linear systems, activation functions
 - [[LeetCode]] – My solutions, categorized by topic
 
 ---

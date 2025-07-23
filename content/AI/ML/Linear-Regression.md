@@ -384,4 +384,101 @@ Different $\lambda$ values correspond to different $\epsilon$ values.
  >This equivalence connects **regularized optimization** to **constrained optimization**.
  > Constrain shape impacts solution. (More discussed in non-linear) #constrained_opt 
  
- 
+
+### Implementation
+
+#### Overview
+This code implements **linear regression** for house price prediction using both:
+
+- **Closed-form solution** (normal equation)
+- **Batch gradient descent** (iterative optimization)
+
+It includes:
+- Preprocessing
+- Feature engineering
+- Training
+- Evaluation (MSE)
+- Visualization of gradient descent convergence of varying step size.
+
+#### Preprocessing Pipeline
+-  `convert_date_to_features(df)`
+	- Converts `'date'` from string to datetime.
+	- Extracts: `day`, `month`, `year`.
+	- Drops original `'date'` column.
+	- Adds temporal features useful for modeling.
+
+ - `age_since_renovated(df)`
+	- Creates a **cleaner age-based feature** by combining `yr_renovated` and `yr_built`.
+	- Handles `yr_renovated = 0` (no renovation) properly.
+	- Drops `yr_renovated` to reduce noise.
+
+- `normalize(data)`
+	- Applies **z-score normalization**:  
+	  $$
+	  x_{\text{normalized}} = \frac{x - \mu}{\sigma}
+	  $$
+	- Helps gradient descent converge faster by making feature scales uniform.
+
+
+#### Solving W
+-  `closed_form_sol(x, y)`
+	- Computes:
+	  $$
+	  w = (X^T X)^{-1} X^T y
+		$$
+	- ✅ Efficient for small to medium datasets.
+	- ❌ Infeasible for huge `X` due to matrix inversion.
+
+- `batch_gradient_descent(...)`
+	- Initializes weights to zeros.
+	- Iteratively updates weights using:
+	  $$
+	  w := w - \gamma \cdot \nabla \text{MSE}
+	  $$
+
+#### Results
+
+After training the linear regression model using both **closed-form solution** and **batch gradient descent**, the following MSE (Mean Squared Error) values were observed:
+
+| Method                 | Train MSE        | Validation MSE   |
+|------------------------|------------------|------------------|
+| Closed-form solution   | 0.3047           | 0.3092           |
+| Batch gradient descent | 0.3047           | 0.3092           |
+
+Observations:
+- Both methods yield **almost identical results**, confirming that gradient descent converged properly to the optimal solution.
+- Slight numerical differences (in the order of ~1e-11) are due to **floating-point precision**, not model quality.
+- The validation MSE being slightly higher than the training MSE is **expected** and suggests reasonable generalization.
+
+Plot of various LR:
+- Below is a plot of **training loss (MSE)** over epochs for various learning rates (step sizes) using **batch gradient descent**:
+![[myplot.png]]
+
+Observations:
+- **Larger learning rates** (e.g., 0.1) converge faster but may become unstable if too high.
+- **Smaller learning rates** (e.g., 0.0001) converge slowly but more smoothly.
+- All curves appear to **eventually converge** to a similar final MSE, confirming proper scaling and gradient behavior.
+- This visualization is useful to **diagnose learning rate choice** and ensures the model doesn't diverge.
+
+####  Notable Points
+
+1. Why Add Bias with `ones_column` #bias
+	- Bias term \( w_0 \) allows predictions **not to be anchored at the origin**.
+	- Without it, model would wrongly predict `y=0` when all inputs are zero.
+
+2. Why Normalize Data? #normalization
+	- Without normalization, features on different scales (e.g. square feet vs. month) would cause:
+	  - Gradient descent to converge slowly
+	  - Numerical instability
+	- Normalization gives each feature **equal influence** in optimization.
+
+3. What is `inplace=True` in pandas? #inplace
+	In pandas, many methods like `.drop()`, `.fillna()`, `.sort_values()`, etc., return a **new DataFrame by default**, and **do not change the original one** unless you explicitly ask them to do so **in-place**.
+
+
+
+
+### Things to Remember for this page
+
+Maximum Likelihood Estimation (MLE) under a Gaussian noise assumption justifies minimizing the Sum of Squared Errors (SSE), or equivalently, the Mean Squared Error (MSE), to find the optimal weights in linear regression.
+
